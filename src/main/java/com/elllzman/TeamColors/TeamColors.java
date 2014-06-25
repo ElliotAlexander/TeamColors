@@ -15,64 +15,24 @@ public class TeamColors extends JavaPlugin {
 
     ScoreboardManager manager;
     Scoreboard board;
-
-
     public void onEnable()
     {
         getServer().getLogger().info("Team colors started.");
-
         manager = getServer().getScoreboardManager();
         board = getServer().getScoreboardManager().getMainScoreboard();
-
-
     }
-
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         Team t = board.getTeam(args[0]);
         String prefix = t.getPrefix();
 
-        if(nullCheck(t)==false){ return false; }
-
-        if(cmd.getName().equalsIgnoreCase("Bold"))
+        if(t==null){ return false; }
+        if(ChatColor.valueOf(cmd.getName().toUpperCase())!=null)
         {
-                t.setPrefix(prefix + ChatColor.BOLD.toString() + "");
-                sender.sendMessage(ChatColor.GREEN + "Team color changed to bold!");
-                return true;
-        }
-
-        if(cmd.getName().equalsIgnoreCase("italic"))
-        {
-            t.setPrefix(prefix + ChatColor.ITALIC.toString() + "");
-            sender.sendMessage(ChatColor.GREEN + "Team color changed to italic!");
-            return true;
-        }
-
-        if(cmd.getName().equalsIgnoreCase("underline"))
-        {
-            t.setPrefix(prefix + ChatColor.UNDERLINE.toString() + "" );
-            sender.sendMessage(ChatColor.GREEN + "Team color changed to underline!");
-            return true;
-        }
-        if(cmd.getName().equalsIgnoreCase("strikethrough"))
-        {
-            t.setPrefix(prefix + ChatColor.STRIKETHROUGH.toString() + "");
-            sender.sendMessage(ChatColor.GREEN + "Team color changed to strikethrough!");
-            return true;
+            t.setPrefix(t.getPrefix() + ChatColor.valueOf(cmd.getName().toUpperCase()));
+            sender.sendMessage(ChatColor.RED + "Team color of team " + t.getName() + " has been changed to " + cmd.getName());
         }
         return true;
     }
-
-    private boolean nullCheck(Object o)
-    {
-        if(o==null)
-        {
-            return false;
-        }
-        return true;
-    }
-
-
-
 }
