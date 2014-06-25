@@ -13,10 +13,10 @@ import org.bukkit.scoreboard.Team;
  */
 public class TeamColors extends JavaPlugin {
 
-    ScoreboardManager manager = getServer().getScoreboardManager();
-    Scoreboard board = manager.getMainScoreboard();
+    private Scoreboard board = manager.getMainScoreboard();
 
     public void onEnable() {
+        this.board = this.getServer().getScoreboardManager().getMainScoreboard();
         getServer().getLogger().info("Team colors started.");
     }
 
