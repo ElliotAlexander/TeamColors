@@ -13,73 +13,34 @@ import org.bukkit.scoreboard.Team;
  */
 public class TeamColors extends JavaPlugin {
 
-    ScoreboardManager manager = getServer().getScoreboardManager();
-    Scoreboard board = manager.getMainScoreboard();
+    private Scoreboard board = manager.getMainScoreboard();
 
-    public void onEnable()
-    {
+    public void onEnable() {
+        this.board = this.getServer().getScoreboardManager().getMainScoreboard();
         getServer().getLogger().info("Team colors started.");
-
     }
 
+    private boolean setTeamFormat(ChatColor format, String teamName, sender) {
+        Team t = board.getTeam(teamName);
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-    {
-        if(cmd.getName().equalsIgnoreCase("Bold"))
-        {
-            Team t = board.getTeam(args[0]);
-            if(t==null)
-            {
-                sender.sendMessage(ChatColor.RED + "That team does not exist!");
-                return true;
-            }
+        if (t == null) {
+            sender.sendMessage(ChatColor.RED + "That team does not exist!");
+            return true;
+        } else {
             String prefix = t.getPrefix();
-            t.setPrefix(prefix + ChatColor.BOLD.toString() + "");
-            sender.sendMessage(ChatColor.GREEN + "Team color changed to bold!");
+            t.setPrefix(prefix + format.toString());
+            sender.sendMessage(ChatColor.GREEN + "Team color changed to " + color.name().toLowerCase() + "!");
             return true;
         }
+    }
 
-        if(cmd.getName().equalsIgnoreCase("italic"))
-        {
-            Team t = board.getTeam(args[0]);
-            if(t==null)
-            {
-                sender.sendMessage(ChatColor.RED + "That team does not exist!");
-                return true;
-            }
-            String prefix = t.getPrefix();
-            t.setPrefix(prefix + ChatColor.ITALIC.toString() + "");
-            sender.sendMessage(ChatColor.GREEN + "Team color changed to italic!");
-            return true;
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        ChatColor color = ChatColor.valueOf(cmd.getName());
+        
+        if (color != null && color.isFormat()) {
+            return this.setTeamFormat(color, args[0], sender);
+        } else {
+            return false;
         }
-
-        if(cmd.getName().equalsIgnoreCase("underline"))
-        {
-            Team t = board.getTeam(args[0]);
-            if(t==null)
-            {
-                sender.sendMessage(ChatColor.RED + "That team does not exist!");
-                return true;
-            }
-            String prefix = t.getPrefix();
-            t.setPrefix(prefix + ChatColor.UNDERLINE.toString() + "" );
-            sender.sendMessage(ChatColor.GREEN + "Team color changed to underline!");
-            return true;
-        }
-        if(cmd.getName().equalsIgnoreCase("strikethrough"))
-        {
-            Team t = board.getTeam(args[0]);
-            if(t==null)
-            {
-                sender.sendMessage(ChatColor.RED + "That team does not exist!");
-                return true;
-            }
-            String prefix = t.getPrefix();
-            t.setPrefix(prefix + ChatColor.STRIKETHROUGH.toString() + "");
-            sender.sendMessage(ChatColor.GREEN + "Team color changed to strikethrough!");
-            return true;
-        }
-        return true;
-
     }
 }
