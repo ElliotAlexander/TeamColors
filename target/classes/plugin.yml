@@ -1,0 +1,16 @@
+name: TeamColors
+version: 1.0.1
+main: com.elllzman.TeamColors.TeamColors
+commands:
+  italic:
+    permission: TeamColor.edit
+    usage: /Italic <TeamName>
+  bold:
+    permission: TeamColor.edit
+    usage: /Italic <TeamName>
+  strikethrough:
+    permission: TeamColor.edit
+    usage: /Italic <TeamName>
+  underline:
+    permission: TeamColor.edit
+    usage: /Italic <TeamName>
